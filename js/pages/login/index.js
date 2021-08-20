@@ -2,7 +2,7 @@
  * @Author: wangtao
  * @Date: 2020-06-28 15:43:56
  * @LastEditors: 汪滔
- * @LastEditTime: 2020-10-12 16:50:38
+ * @LastEditTime: 2021-08-20 18:23:12
  * @Description: 登录
  */
 
@@ -45,7 +45,7 @@ export default class Login extends Component {
 
   render() {
     return (
-      <ScrollView style={{ flex: 1 }} scrollEnabled={false}>
+      <ScrollView style={{ flex: 1, backgroundColor: '#fff' }} scrollEnabled={false}>
         <View style={styles.container}>
           <Image source={logo} resizeMode="contain" style={styles.logo} />
           <Text style={styles.title}>欢迎来到小马之家</Text>

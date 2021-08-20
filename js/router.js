@@ -2,16 +2,21 @@
  * @Author: wangtao
  * @Date: 2020-07-11 15:43:52
  * @LastEditors: 汪滔
- * @LastEditTime: 2020-10-12 17:24:40
+ * @LastEditTime: 2021-08-20 18:22:32
  * @Description: 路由管理文件
  */
 import React from 'react';
 import { Platform, PixelRatio } from 'react-native';
 import { createAppContainer, NavigationActions } from 'react-navigation';
-import { createStackNavigator, StackViewStyleInterpolator } from 'react-navigation-stack';
+import {
+  createStackNavigator,
+  StackViewStyleInterpolator,
+  TransitionSpecs,
+  CardStyleInterpolators,
+} from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { BackImage } from '@/common';
-
+import { BackImageOn } from '@/common';
+import { px2dp } from '@/styles';
 import Login from './pages/login';
 import Main from './pages/main';
 import User from './pages/user';
@@ -35,8 +40,11 @@ const emptyHeader = {
 // 标题局中
 const titleCenter = {
   headerTitleStyle: {
-    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     textAlign: 'center',
+    height: px2dp(88),
+    lineHeight: px2dp(88),
     flex: 1,
     paddingRight: isAndroid ? 56 : 0,
     fontSize: 18,
@@ -117,33 +125,38 @@ const AppNavigator = createStackNavigator(
   {
     // initialRouteName:__DEV__ ? 'Test' : 'BootPage',
     initialRouteName: 'Tab',
-
-    transitionConfig: () => ({
-      // 将安卓的跳转动画改成iOS
-      // 只要修改最后的forVertical就可以实现不同的动画了。
-      // 从右向左：forHorizontal   从下向上：forVertical 安卓那种的从下向上：forFadeFromBottomAndroid； 无动画：forInitial
-      screenInterpolator: StackViewStyleInterpolator.forHorizontal,
-    }),
+    mode: 'card',
+    // // screen：每个页面都有各自的标题栏，并且伴随着页面切换一起淡入淡出。这是 Android 上的常见模式。
+    headerMode: 'screen',
     defaultNavigationOptions: {
-      headerBackTitle: null,
-      headerStyle: {
-        // backgroundColor: '#f4511e',
-        elevation: 0,
-        borderBottomWidth: 1 / PixelRatio.get(),
-        borderBottomColor: '#F0EFEF',
-        // height: isAndroid ? 44 : 50,
-        height: 50,
-        paddingBottom: isAndroid ? 2 : 0,
-      },
+      headerStyle: isAndroid
+        ? {
+          // backgroundColor: '#f4511e',
+          elevation: 0,
+          borderBottomWidth: 1 / PixelRatio.get(),
+          borderBottomColor: '#F0EFEF',
+          height: px2dp(88),
+          // paddingBottom: isAndroid ? 2 : 0,
+          // marginLeft: isAndroid ? 0 : 14
+        }
+        : {
+          elevation: 0,
+          borderBottomWidth: 1 / PixelRatio.get(),
+          borderBottomColor: '#F0EFEF',
+        },
       headerTintColor: '#000',
       // headerTitleStyle: {
       //   fontWeight: 'bold',
       // },
-      headerBackImage: <BackImage />,
+      headerLeft: <BackImageOn />,
+      headerBackTitle: null,
+      // 将安卓的跳转动画改成iOS
+      transitionSpec: {
+        open: TransitionSpecs.TransitionIOSSpec,
+        close: TransitionSpecs.TransitionIOSSpec,
+      },
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
     },
-    // //  指定标题栏的渲染方式
-    // // screen：每个页面都有各自的标题栏，并且伴随着页面切换一起淡入淡出。这是 Android 上的常见模式。
-    headerMode: 'screen',
     // // 用于屏幕的默认导航选项
     // navigationOptions: {
     //     headerBackTitle: null,
@@ -185,7 +198,8 @@ AppNavigator.router.getStateForAction = (action, state) => {
       };
     }
     return defaultGetStateForAction(NavigationActions.init());
-  } if (state && action.type === 'refresh') {
+  }
+  if (state && action.type === 'refresh') {
     // 刷新当前页面
     const { routes } = state;
     routes[state.routes.length - 1].key = Math.random().toString();
@@ -194,7 +208,8 @@ AppNavigator.router.getStateForAction = (action, state) => {
       routes,
       index: routes.length - 1,
     };
-  } if (state && action.type === 'backToTop') {
+  }
+  if (state && action.type === 'backToTop') {
     // 返回首页
     if (state.routes.length <= 1 || state.routes[0].routeName === 'Login') {
       return defaultGetStateForAction(NavigationActions.init());
@@ -211,7 +226,8 @@ AppNavigator.router.getStateForAction = (action, state) => {
       routes,
       index: routes.length - 1,
     };
-  } if (state && action.type === 'refreshRoute') {
+  }
+  if (state && action.type === 'refreshRoute') {
     // 刷新栈中指定名称路由,如果不存在,则不进行任何操作
     const { routes } = state;
     const index = routes.findIndex((r) => r.routeName === action.routeName);
@@ -223,7 +239,8 @@ AppNavigator.router.getStateForAction = (action, state) => {
       routes,
       index: routes.length - 1,
     };
-  } if (state && action.type === 'refreshRoutes') {
+  }
+  if (state && action.type === 'refreshRoutes') {
     // 刷新栈中指定名称路由,如果不存在,则不进行任何操作
     const names = action.routeNames;
     const routes = state.routes.map((r) => {
