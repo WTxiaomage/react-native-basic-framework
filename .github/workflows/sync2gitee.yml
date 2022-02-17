@@ -1,0 +1,25 @@
+name: sync2gitee
+
+on:
+  push:
+#   schedule:
+#     - cron: '1 17 * * *'
+
+jobs:
+  run:
+    name: Sync GitHub to Gitee
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Mirror the GitHub repos to Gitee
+        uses: Yikun/hub-mirror-action@v1.1
+        with:
+          src: github/WTxiaomage
+          dst: gitee/WTxiaomage_admin
+          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+          dst_token: ${{ secrets.GITEE_TOKEN }}
+          static_list: 'react-native-basic-framework' # 要同步的仓库
+          white_list: 'react-native-basic-framework' # 如果没有将自动创建
+          account_type: user
+          force_update: true
+          timeout: 300
