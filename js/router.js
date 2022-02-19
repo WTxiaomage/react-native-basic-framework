@@ -2,11 +2,11 @@
  * @Author: wangtao
  * @Date: 2020-07-11 15:43:52
  * @LastEditors: 汪滔
- * @LastEditTime: 2022-02-19 20:28:37
+ * @LastEditTime: 2022-02-19 20:59:23
  * @Description: 路由管理文件
  */
 import React from "react";
-import { Platform, PixelRatio } from "react-native";
+import { Platform, PixelRatio, StatusBar } from "react-native";
 import { createAppContainer, NavigationActions } from "react-navigation";
 import { createStackNavigator, TransitionSpecs, CardStyleInterpolators } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -15,6 +15,7 @@ import { px2dp } from "@/styles";
 import Main from "./pages/main";
 import User from "./pages/user";
 import About from "./pages/about";
+import Login from "./pages/login";
 // 测试页面start
 import Test from "./pages/test";
 import ListViewDemo from "./pages/test/listview";
@@ -90,6 +91,10 @@ const AppNavigator = createStackNavigator(
         headerBackTitle: null
       }
     },
+    Login: {
+      screen: Login,
+      ...emptyHeader
+    },
     About: {
       screen: About,
       navigationOptions: {
@@ -121,18 +126,17 @@ const AppNavigator = createStackNavigator(
     defaultNavigationOptions: {
       headerStyle: isAndroid
         ? {
-            // backgroundColor: '#f4511e',
             elevation: 0,
             borderBottomWidth: 1 / PixelRatio.get(),
             borderBottomColor: "#F0EFEF",
-            height: px2dp(88)
-            // paddingBottom: isAndroid ? 2 : 0,
-            // marginLeft: isAndroid ? 0 : 14
+            paddingTop: StatusBar.currentHeight,
+            height: px2dp(88) + StatusBar.currentHeight
           }
         : {
             elevation: 0,
             borderBottomWidth: 1 / PixelRatio.get(),
-            borderBottomColor: "#F0EFEF"
+            borderBottomColor: "#F0EFEF",
+            height: px2dp(88)
           },
       headerTintColor: "#000",
       // headerTitleStyle: {
