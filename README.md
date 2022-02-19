@@ -2,19 +2,20 @@
  * @Author: wangtao
  * @Date: 2020-07-09 00:09:12
  * @LastEditors: 汪滔
- * @LastEditTime: 2020-10-13 09:15:55
+ * @LastEditTime: 2021-11-27 09:49:15
  * @Description: 项目说明文件
 -->
 
-# react_native_basic_framework
+# xmgj_react_native_basic_framework
 
 ## 这是一个基础框架
-1. 用react-native-cli新增一个项目，保留Android，ios目录，将js相关部分替换，app.json中的要换为项目名
+
+1. 用 react-native-cli 新增一个项目，保留 Android，ios 目录，将 js 相关部分替换，app.json 中的要换为项目名
 
 ## 项目搭建思路
 
-1. 用 npx react-native init react_native_basic_framework (如果不行，卸载：npm uninstall -g react-native-cli 下载：npm install react-native-cli )
-2. 引入 react-navigation  
+1. 用 npx react-native init xmzj_app (如果不行，卸载：npm uninstall -g react-native-cli 下载：npm install react-native-cli )
+2. 引入 react-navigation
    ```
    "@react-native-community/masked-view": "^0.1.10",
    "react-native-gesture-handler": "^1.8.0",
@@ -31,18 +32,22 @@
    "babel-plugin-module-resolver": "^4.0.0",
    ```
 4. 配置全局通信
-  ```
-  "mitt": "^2.1.0",
-  ```
+
+```
+"mitt": "^2.1.0",
+```
+
 5. 配置 eslint(痛定思痛，xmgj 没配置导致编码不规范，现在强制性，请在编辑器中安装 ESlint，Prettier 插件配合使用，真香！！！)
-  ```
-  "babel-eslint": "^10.1.0",
-  "eslint": "^6.5.1",
-  "eslint-config-airbnb": "^18.2.0",
-  "eslint-plugin-import": "^2.22.1",
-  "eslint-plugin-jsx-a11y": "^6.3.1",
-  "eslint-plugin-react": "^7.21.4",
-  ```
+
+```
+"babel-eslint": "^10.1.0",
+"eslint": "^6.5.1",
+"eslint-config-airbnb": "^18.2.0",
+"eslint-plugin-import": "^2.22.1",
+"eslint-plugin-jsx-a11y": "^6.3.1",
+"eslint-plugin-react": "^7.21.4",
+```
+
 6. 配置存储机制（之前用的 react-native-storage 已经两年未维护了，重要地方采用双存储机制（主要是用于存储登录信息等，如无必要请不要用来做业务）（目前@react-native-community/async-storage 杀进程后不会丢失，sync-storage 杀进程后会丢失）
    ```
    "@react-native-community/async-storage": "^1.12.1",
@@ -165,120 +170,6 @@
   };
 
 ```
-
-## Button
-
-1. 发送验证码
-
-```
- <SendButton btnStyle={styles.sendBtn} onClick={() => {}} clickValid={() => {}} />
-```
-
-2. 提交表单
-
-```
- <Submit
-    text="登录"
-    boxStyle={{
-      width: '100%',
-      height: px2dp(88),
-      borderRadius: px2dp(16),
-      marginTop: px2dp(80),
-    }}
-    disabled
-    onClick={() => {}}
-  />
-```
-
-## \_ 小工具函数
-
-1. 适配 Android，iOS8， iOS11
-   第一个为有刘海的如 IphoneX 顶部距离加 60，第二个为 Android 机不加，第三个为无刘海的 Iphone 加 30
-   ...\_.ifIphoneX(
-   { marginTop: px2dp(180 + 60) },
-   isAndroid ? { marginTop: px2dp(180) } : { marginTop: px2dp(180 + 30) },
-   ),
-
-## 内存存储 异步 AsyncStorage 同步 SyncStorage
-
-注意:在使用时请配合公共环境常量管理文件使用，方便团队管理，知道目前别人存的，防止覆盖冲突
-
-```
-  // 存
-    AsyncStorage.setItem(cache.USER, JSON.stringify(response.data));
-    SyncStorage.set(cache.USER, response.data);
-  //取
-    AsyncStorage.getItem(cache.USER).then((res) => {
-      console.log('🚀🚀🚀wimi======>>>AsyncStorage', res);
-    });
-    SyncStorage.get(cache.USER)
-  // 删除
-    AsyncStorage.removeItem(cache.USER);
-    SyncStorage.remove(cache.USER);
-    建议清空不删key
-    AsyncStorage.setItem(cache.USER, '');
-    SyncStorage.set(cache.USER, '');
-```
-
-## 全局 Tips
-
-```
-msg.emit('app:tip', { text: 'message' });
-msg.emit('app:tip', { text: '删除成功', icon: 'success' });
-```
-
-
-## XMListView
-
-  //以下是listView的封装属性，详细可看test文件夹中的demo
-  ```
-  static defaultProps = {
-    //请求的url
-    url: '',
-    // 请求方式
-    methods: '',
-    // 从返回对象中取数据的属性,避免在公共组件中写死这种代码context.esGoodsInfoPage.content
-    dataPropsName: '',
-    //样式
-    style: {},
-    columnWrapperStyle: {},
-    topButStyle: {},
-    //http参数
-    params: {},
-    //默认当前页
-    page: 0,
-    //默认每页展示的数量
-    size: 10,
-    //默认排序
-    sortFlag: 0,
-    //当前的数据
-    dataSource: [],
-    //是否分页
-    isPagination: true,
-    //显示头部
-    renderHeader: null,
-    //展示每列
-    renderRow: null,
-    //展示页脚
-    renderFooter: null,
-    //显示空
-    renderEmpty: null,
-    //收到数据后的回调
-    onDataReached: noop,
-    //row数据中的主键，用于生成行key
-    keyProps: 'id',
-    //多余的参数，state等变量
-    extraData: {},
-    //每行的列数
-    numColumns: 1,
-    //组装item需要的其他参数，和content平级的返回值
-    otherProps: [],
-    //行高
-    // lineHeight:121
-    //返回滑动数据
-    returnScroll: null,
-  }; 
-  ```
 
 
 

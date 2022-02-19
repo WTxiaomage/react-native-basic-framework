@@ -2,53 +2,47 @@
  * @Author: wangtao
  * @Date: 2020-07-11 15:43:52
  * @LastEditors: 汪滔
- * @LastEditTime: 2021-08-20 18:22:32
+ * @LastEditTime: 2022-02-19 20:28:37
  * @Description: 路由管理文件
  */
-import React from 'react';
-import { Platform, PixelRatio } from 'react-native';
-import { createAppContainer, NavigationActions } from 'react-navigation';
-import {
-  createStackNavigator,
-  StackViewStyleInterpolator,
-  TransitionSpecs,
-  CardStyleInterpolators,
-} from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { BackImageOn } from '@/common';
-import { px2dp } from '@/styles';
-import Login from './pages/login';
-import Main from './pages/main';
-import User from './pages/user';
-import About from './pages/about';
+import React from "react";
+import { Platform, PixelRatio } from "react-native";
+import { createAppContainer, NavigationActions } from "react-navigation";
+import { createStackNavigator, TransitionSpecs, CardStyleInterpolators } from "react-navigation-stack";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { BackImageOn } from "@/common";
+import { px2dp } from "@/styles";
+import Main from "./pages/main";
+import User from "./pages/user";
+import About from "./pages/about";
 // 测试页面start
-import Test from './pages/test';
-import ListViewDemo from './pages/test/listview';
+import Test from "./pages/test";
+import ListViewDemo from "./pages/test/listview";
 
 // 测试页面end
 
-const isAndroid = Platform.OS === 'android';
+const isAndroid = Platform.OS === "android";
 
 // header为空的属性
 const emptyHeader = {
   header: null,
   navigationOptions: {
     headerShown: false,
-    headerBackTitle: null,
-  },
+    headerBackTitle: null
+  }
 };
 // 标题局中
 const titleCenter = {
   headerTitleStyle: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
     height: px2dp(88),
     lineHeight: px2dp(88),
     flex: 1,
     paddingRight: isAndroid ? 56 : 0,
-    fontSize: 18,
-  },
+    fontSize: 18
+  }
 };
 
 // 适用于ios和安卓两个平台的底部导航栏
@@ -56,31 +50,31 @@ const TabNavigator = createBottomTabNavigator(
   {
     // 首页
     Main: {
-      screen: Main,
+      screen: Main
     },
     User: {
-      screen: User,
-    },
+      screen: User
+    }
   },
   {
-    initialRouteName: 'Main',
+    initialRouteName: "Main",
     tabBarOptions: {
       labelStyle: {
-        fontSize: 12,
+        fontSize: 12
       },
       allowFontScaling: false,
-      activeBackgroundColor: '#fff',
-      inactiveBackgroundColor: '#fff',
-      activeTintColor: '#BA914A',
+      activeBackgroundColor: "#fff",
+      inactiveBackgroundColor: "#fff",
+      activeTintColor: "#BA914A",
       style: {
         borderTopWidth: 1 / PixelRatio.get(),
-        borderTopColor: '#F0EFEF',
-      },
+        borderTopColor: "#F0EFEF"
+      }
     },
     lazy: true,
     animationEnabled: false,
-    swipeEnabled: false,
-  },
+    swipeEnabled: false
+  }
 );
 // 路由页面
 // 在新的页面被放入栈顶之后，StackNavigator 给你的应用程序提供了切换页面的方法。
@@ -93,58 +87,54 @@ const AppNavigator = createStackNavigator(
       screen: TabNavigator,
       navigationOptions: {
         headerShown: false,
-        headerBackTitle: null,
-      },
-    },
-    Login: {
-      screen: Login,
-      ...emptyHeader,
+        headerBackTitle: null
+      }
     },
     About: {
       screen: About,
       navigationOptions: {
-        headerTitle: '个人资料',
-        ...titleCenter,
-      },
+        headerTitle: "个人资料",
+        ...titleCenter
+      }
     },
     Test: {
       screen: Test,
       navigationOptions: {
-        headerTitle: '测试页面',
-        ...titleCenter,
-      },
+        headerTitle: "测试页面",
+        ...titleCenter
+      }
     },
     ListViewDemo: {
       screen: ListViewDemo,
       navigationOptions: {
-        headerTitle: '列表',
-        ...titleCenter,
-      },
-    },
+        headerTitle: "列表",
+        ...titleCenter
+      }
+    }
   },
   {
     // initialRouteName:__DEV__ ? 'Test' : 'BootPage',
-    initialRouteName: 'Tab',
-    mode: 'card',
+    initialRouteName: "Tab",
+    mode: "card",
     // // screen：每个页面都有各自的标题栏，并且伴随着页面切换一起淡入淡出。这是 Android 上的常见模式。
-    headerMode: 'screen',
+    headerMode: "screen",
     defaultNavigationOptions: {
       headerStyle: isAndroid
         ? {
-          // backgroundColor: '#f4511e',
-          elevation: 0,
-          borderBottomWidth: 1 / PixelRatio.get(),
-          borderBottomColor: '#F0EFEF',
-          height: px2dp(88),
-          // paddingBottom: isAndroid ? 2 : 0,
-          // marginLeft: isAndroid ? 0 : 14
-        }
+            // backgroundColor: '#f4511e',
+            elevation: 0,
+            borderBottomWidth: 1 / PixelRatio.get(),
+            borderBottomColor: "#F0EFEF",
+            height: px2dp(88)
+            // paddingBottom: isAndroid ? 2 : 0,
+            // marginLeft: isAndroid ? 0 : 14
+          }
         : {
-          elevation: 0,
-          borderBottomWidth: 1 / PixelRatio.get(),
-          borderBottomColor: '#F0EFEF',
-        },
-      headerTintColor: '#000',
+            elevation: 0,
+            borderBottomWidth: 1 / PixelRatio.get(),
+            borderBottomColor: "#F0EFEF"
+          },
+      headerTintColor: "#000",
       // headerTitleStyle: {
       //   fontWeight: 'bold',
       // },
@@ -153,9 +143,9 @@ const AppNavigator = createStackNavigator(
       // 将安卓的跳转动画改成iOS
       transitionSpec: {
         open: TransitionSpecs.TransitionIOSSpec,
-        close: TransitionSpecs.TransitionIOSSpec,
+        close: TransitionSpecs.TransitionIOSSpec
       },
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
     },
     // // 用于屏幕的默认导航选项
     // navigationOptions: {
@@ -163,8 +153,8 @@ const AppNavigator = createStackNavigator(
     //     header: null
     // },
     //  当切换动画结束时调用的函数
-    onTransitionEnd: async () => {},
-  },
+    onTransitionEnd: async () => {}
+  }
 );
 
 export const AppContainer = createAppContainer(AppNavigator);
@@ -173,45 +163,45 @@ const defaultGetStateForAction = AppNavigator.router.getStateForAction;
 
 AppNavigator.router.getStateForAction = (action, state) => {
   if (__DEV__) {
-    console.log('wangtao:action----->', action);
-    console.log('wangtao:state----->', state);
+    console.log("wangtao:action----->", action);
+    console.log("wangtao:state----->", state);
   }
 
-  if (state && action.type === 'replace') {
+  if (state && action.type === "replace") {
     // 替换当前路由,如果当前路由存在栈中,则删除栈中存在的路由
     let routes = [];
     const index = action.index || 1;
     if (state.routes.length > 1) {
-      routes = state.routes.filter((r) => r.routeName !== action.routeName);
+      routes = state.routes.filter(r => r.routeName !== action.routeName);
       routes = routes.slice(0, routes.length - index);
       const { routeName, ...other } = action;
       const route = {
         routeName,
         params: other,
-        key: Math.random().toString(),
+        key: Math.random().toString()
       };
       routes.push(route);
       return {
         ...state,
         routes,
-        index: routes.length - 1,
+        index: routes.length - 1
       };
     }
     return defaultGetStateForAction(NavigationActions.init());
   }
-  if (state && action.type === 'refresh') {
+  if (state && action.type === "refresh") {
     // 刷新当前页面
     const { routes } = state;
     routes[state.routes.length - 1].key = Math.random().toString();
     return {
       ...state,
       routes,
-      index: routes.length - 1,
+      index: routes.length - 1
     };
   }
-  if (state && action.type === 'backToTop') {
+  if (state && action.type === "backToTop") {
     // 返回首页
-    if (state.routes.length <= 1 || state.routes[0].routeName === 'Login') {
+    if (state.routes.length <= 1 || state.routes[0].routeName === "Login") {
       return defaultGetStateForAction(NavigationActions.init());
     }
     const routes = state.routes.slice(0, 1);
@@ -224,27 +214,27 @@ AppNavigator.router.getStateForAction = (action, state) => {
     return {
       ...state,
       routes,
-      index: routes.length - 1,
+      index: routes.length - 1
     };
   }
-  if (state && action.type === 'refreshRoute') {
+  if (state && action.type === "refreshRoute") {
     // 刷新栈中指定名称路由,如果不存在,则不进行任何操作
     const { routes } = state;
-    const index = routes.findIndex((r) => r.routeName === action.routeName);
+    const index = routes.findIndex(r => r.routeName === action.routeName);
     if (index >= 0) {
       routes[index].key = Math.random().toString();
     }
     return {
       ...state,
       routes,
-      index: routes.length - 1,
+      index: routes.length - 1
     };
   }
-  if (state && action.type === 'refreshRoutes') {
+  if (state && action.type === "refreshRoutes") {
     // 刷新栈中指定名称路由,如果不存在,则不进行任何操作
     const names = action.routeNames;
-    const routes = state.routes.map((r) => {
-      if (names.some((n) => n === r.routeName)) {
+    const routes = state.routes.map(r => {
+      if (names.some(n => n === r.routeName)) {
         r.key = Math.random().toString();
       }
       return r;
@@ -252,7 +242,7 @@ AppNavigator.router.getStateForAction = (action, state) => {
     return {
       ...state,
       routes,
-      index: routes.length - 1,
+      index: routes.length - 1
     };
   }
 

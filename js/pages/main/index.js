@@ -6,25 +6,20 @@
  * @Description: 首页
  */
 
-import React, { Component } from 'react';
-import {
-  StyleSheet, View, Text, Image,
-} from 'react-native';
-import { main, mainGray } from '@/images';
-import { Button, msg } from '@/common';
+import React, { Component } from "react";
+import { StyleSheet, View, Text, Image } from "react-native";
+import { iconHomeCoffee, iconHomeGray } from "@/images";
+import { Button, msg } from "@/common";
 
 const { LongButton } = Button;
 
 export default class Main extends Component {
   static navigationOptions = () => ({
-    title: '首页',
+    title: "首页",
     tabBarIcon: ({ focused }) => (
-      <Image
-        source={focused ? main : mainGray}
-        style={{ width: 24, height: 24 }}
-      />
-    ),
-  })
+      <Image source={focused ? iconHomeCoffee : iconHomeGray} style={{ width: 24, height: 24 }} />
+    )
+  });
 
   constructor(props) {
     super(props);
@@ -41,7 +36,7 @@ export default class Main extends Component {
           text="goTo测试页面"
           boxStyle={{ marginTop: 20 }}
           onClick={() => {
-            msg.emit('router: goToNext', { routeName: 'Test' });
+            msg.emit("router: goToNext", { routeName: "Test" });
           }}
         />
       </View>
@@ -52,8 +47,8 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#f2f2f2',
-    justifyContent: 'center',
-  },
+    alignItems: "center",
+    backgroundColor: "#f2f2f2",
+    justifyContent: "center"
+  }
 });
